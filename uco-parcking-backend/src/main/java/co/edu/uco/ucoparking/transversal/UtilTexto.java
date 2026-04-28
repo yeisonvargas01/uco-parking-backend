@@ -23,5 +23,7 @@ public class UtilTexto {
 	public static String aplicarTrim(final String texto) {
 		return obtenerValorDefecto(texto).trim();
 	}
-		
+		public static String aplicarTrimYConvertirAMayusculas(final String texto) {
+			return aplicarTrim(texto).toUpperCase();
+		}
 }
