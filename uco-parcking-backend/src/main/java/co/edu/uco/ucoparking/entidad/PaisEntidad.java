@@ -1,7 +1,9 @@
 package co.edu.uco.ucoparking.entidad;
 
 import java.util.UUID;
+
 import co.edu.uco.ucoparking.transversal.UtilTexto;
+import co.edu.uco.ucoparking.transversal.UtilUUID;
 
 public class PaisEntidad {
 	
@@ -18,7 +20,7 @@ public class PaisEntidad {
 	}
 	
 	private void setId(final UUID id) {
-		this.id = id;
+		this.id = UtilUUID.obtenerValorDefecto(id);
 	}
 	
 	public String getNombre() {
