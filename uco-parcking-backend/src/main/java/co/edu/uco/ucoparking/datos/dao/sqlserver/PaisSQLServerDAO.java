@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import co.edu.uco.ucoparking.datos.dao.PaisDAO;
 import co.edu.uco.ucoparking.entidad.PaisEntidad;
+import co.edu.uco.ucoparking.transversal.excepcion.DatosUcoParkingException;
 
 public class PaisSQLServerDAO implements PaisDAO {
 
@@ -20,39 +21,57 @@ public class PaisSQLServerDAO implements PaisDAO {
 	}
 
 	@Override
-	public void crear(final PaisEntidad pais) throws SQLException {
+	public void crear(final PaisEntidad pais) throws DatosUcoParkingException {
 		final String sql = "INSERT INTO Pais (id, nombre) VALUES (?, ?)";
 
 		try (PreparedStatement sentencia = conexion.prepareStatement(sql)) {
 			sentencia.setString(1, pais.getId().toString());
 			sentencia.setString(2, pais.getNombre());
 			sentencia.executeUpdate();
+
+		} catch (SQLException excepcion) {
+			throw DatosUcoParkingException.crear(
+					"No fue posible registrar el país.",
+					"Error técnico al ejecutar INSERT sobre la tabla Pais.",
+					excepcion);
 		}
 	}
 
 	@Override
-	public void modificar(final PaisEntidad pais) throws SQLException {
+	public void modificar(final PaisEntidad pais) throws DatosUcoParkingException {
 		final String sql = "UPDATE Pais SET nombre = ? WHERE id = ?";
 
 		try (PreparedStatement sentencia = conexion.prepareStatement(sql)) {
 			sentencia.setString(1, pais.getNombre());
 			sentencia.setString(2, pais.getId().toString());
 			sentencia.executeUpdate();
+
+		} catch (SQLException excepcion) {
+			throw DatosUcoParkingException.crear(
+					"No fue posible modificar el país.",
+					"Error técnico al ejecutar UPDATE sobre la tabla Pais.",
+					excepcion);
 		}
 	}
 
 	@Override
-	public void eliminar(final UUID id) throws SQLException {
+	public void eliminar(final UUID id) throws DatosUcoParkingException {
 		final String sql = "DELETE FROM Pais WHERE id = ?";
 
 		try (PreparedStatement sentencia = conexion.prepareStatement(sql)) {
 			sentencia.setString(1, id.toString());
 			sentencia.executeUpdate();
+
+		} catch (SQLException excepcion) {
+			throw DatosUcoParkingException.crear(
+					"No fue posible eliminar el país.",
+					"Error técnico al ejecutar DELETE sobre la tabla Pais.",
+					excepcion);
 		}
 	}
 
 	@Override
-	public PaisEntidad consultarPorId(final UUID id) throws SQLException {
+	public PaisEntidad consultarPorId(final UUID id) throws DatosUcoParkingException {
 		final String sql = "SELECT id, nombre FROM Pais WHERE id = ?";
 
 		try (PreparedStatement sentencia = conexion.prepareStatement(sql)) {
@@ -60,19 +79,22 @@ public class PaisSQLServerDAO implements PaisDAO {
 
 			try (ResultSet resultado = sentencia.executeQuery()) {
 				if (resultado.next()) {
-					return new PaisEntidad.Builder()
-							.id(UUID.fromString(resultado.getString("id")))
-							.nombre(resultado.getString("nombre"))
-							.build();
+					return ensamblarPais(resultado);
 				}
 			}
+
+		} catch (SQLException excepcion) {
+			throw DatosUcoParkingException.crear(
+					"No fue posible consultar el país por identificador.",
+					"Error técnico al ejecutar SELECT por id sobre la tabla Pais.",
+					excepcion);
 		}
 
 		return new PaisEntidad.Builder().build();
 	}
 
 	@Override
-	public List<PaisEntidad> consultar(final PaisEntidad filtro) throws SQLException {
+	public List<PaisEntidad> consultar(final PaisEntidad filtro) throws DatosUcoParkingException {
 		final String sql = "SELECT id, nombre FROM Pais";
 
 		List<PaisEntidad> paises = new ArrayList<>();
@@ -82,15 +104,23 @@ public class PaisSQLServerDAO implements PaisDAO {
 				ResultSet resultado = sentencia.executeQuery()
 		) {
 			while (resultado.next()) {
-				PaisEntidad pais = new PaisEntidad.Builder()
-						.id(UUID.fromString(resultado.getString("id")))
-						.nombre(resultado.getString("nombre"))
-						.build();
-
-				paises.add(pais);
+				paises.add(ensamblarPais(resultado));
 			}
+
+		} catch (SQLException excepcion) {
+			throw DatosUcoParkingException.crear(
+					"No fue posible consultar los países.",
+					"Error técnico al ejecutar SELECT sobre la tabla Pais.",
+					excepcion);
 		}
 
 		return paises;
+	}
+
+	private PaisEntidad ensamblarPais(final ResultSet resultado) throws SQLException {
+		return new PaisEntidad.Builder()
+				.id(UUID.fromString(resultado.getString("id")))
+				.nombre(resultado.getString("nombre"))
+				.build();
 	}
 }

@@ -1,20 +1,20 @@
 package co.edu.uco.ucoparking.datos.dao;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
 import co.edu.uco.ucoparking.entidad.PaisEntidad;
+import co.edu.uco.ucoparking.transversal.excepcion.DatosUcoParkingException;
 
 public interface PaisDAO {
 
-	void crear(PaisEntidad pais) throws SQLException;
+	void crear(PaisEntidad pais) throws DatosUcoParkingException;
 
-	void modificar(PaisEntidad pais) throws SQLException;
+	void modificar(PaisEntidad pais) throws DatosUcoParkingException;
 
-	void eliminar(UUID id) throws SQLException;
+	void eliminar(UUID id) throws DatosUcoParkingException;
 
-	PaisEntidad consultarPorId(UUID id) throws SQLException;
+	PaisEntidad consultarPorId(UUID id) throws DatosUcoParkingException;
 
-	List<PaisEntidad> consultar(PaisEntidad filtro) throws SQLException;
+	List<PaisEntidad> consultar(PaisEntidad filtro) throws DatosUcoParkingException;
 }

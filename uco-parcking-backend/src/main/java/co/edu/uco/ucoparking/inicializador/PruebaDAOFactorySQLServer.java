@@ -1,12 +1,11 @@
 package co.edu.uco.ucoparking.inicializador;
 
-import java.sql.SQLException;
-
 import co.edu.uco.ucoparking.datos.dao.factory.DAOFactory;
 import co.edu.uco.ucoparking.datos.dao.factory.SQLServerDAOFactory;
 import co.edu.uco.ucoparking.entidad.CiudadEntidad;
 import co.edu.uco.ucoparking.entidad.DepartamentoEntidad;
 import co.edu.uco.ucoparking.entidad.PaisEntidad;
+import co.edu.uco.ucoparking.transversal.excepcion.DatosUcoParkingException;
 
 public class PruebaDAOFactorySQLServer {
 
@@ -48,13 +47,18 @@ public class PruebaDAOFactorySQLServer {
 				System.out.println("-----------------------------------");
 			}
 
-		} catch (SQLException excepcion) {
+		} catch (DatosUcoParkingException excepcion) {
+			System.out.println("Mensaje usuario: " + excepcion.getMensajeUsuario());
+			System.out.println("Mensaje tecnico: " + excepcion.getMensajeTecnico());
 			excepcion.printStackTrace();
 
 		} finally {
 			try {
 				daoFactory.cerrarConexion();
-			} catch (SQLException excepcion) {
+
+			} catch (DatosUcoParkingException excepcion) {
+				System.out.println("Mensaje usuario: " + excepcion.getMensajeUsuario());
+				System.out.println("Mensaje tecnico: " + excepcion.getMensajeTecnico());
 				excepcion.printStackTrace();
 			}
 		}

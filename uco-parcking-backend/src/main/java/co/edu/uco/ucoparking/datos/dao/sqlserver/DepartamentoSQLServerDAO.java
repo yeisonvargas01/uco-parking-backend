@@ -11,6 +11,7 @@ import java.util.UUID;
 import co.edu.uco.ucoparking.datos.dao.DepartamentoDAO;
 import co.edu.uco.ucoparking.entidad.DepartamentoEntidad;
 import co.edu.uco.ucoparking.entidad.PaisEntidad;
+import co.edu.uco.ucoparking.transversal.excepcion.DatosUcoParkingException;
 
 public class DepartamentoSQLServerDAO implements DepartamentoDAO {
 
@@ -21,7 +22,7 @@ public class DepartamentoSQLServerDAO implements DepartamentoDAO {
 	}
 
 	@Override
-	public void crear(final DepartamentoEntidad departamento) throws SQLException {
+	public void crear(final DepartamentoEntidad departamento) throws DatosUcoParkingException {
 		final String sql = "INSERT INTO Departamento (id, nombre, pais_id) VALUES (?, ?, ?)";
 
 		try (PreparedStatement sentencia = conexion.prepareStatement(sql)) {
@@ -29,11 +30,17 @@ public class DepartamentoSQLServerDAO implements DepartamentoDAO {
 			sentencia.setString(2, departamento.getNombre());
 			sentencia.setString(3, departamento.getPais().getId().toString());
 			sentencia.executeUpdate();
+
+		} catch (SQLException excepcion) {
+			throw DatosUcoParkingException.crear(
+					"No fue posible registrar el departamento.",
+					"Error técnico al ejecutar INSERT sobre la tabla Departamento.",
+					excepcion);
 		}
 	}
 
 	@Override
-	public void modificar(final DepartamentoEntidad departamento) throws SQLException {
+	public void modificar(final DepartamentoEntidad departamento) throws DatosUcoParkingException {
 		final String sql = "UPDATE Departamento SET nombre = ?, pais_id = ? WHERE id = ?";
 
 		try (PreparedStatement sentencia = conexion.prepareStatement(sql)) {
@@ -41,21 +48,33 @@ public class DepartamentoSQLServerDAO implements DepartamentoDAO {
 			sentencia.setString(2, departamento.getPais().getId().toString());
 			sentencia.setString(3, departamento.getId().toString());
 			sentencia.executeUpdate();
+
+		} catch (SQLException excepcion) {
+			throw DatosUcoParkingException.crear(
+					"No fue posible modificar el departamento.",
+					"Error técnico al ejecutar UPDATE sobre la tabla Departamento.",
+					excepcion);
 		}
 	}
 
 	@Override
-	public void eliminar(final UUID id) throws SQLException {
+	public void eliminar(final UUID id) throws DatosUcoParkingException {
 		final String sql = "DELETE FROM Departamento WHERE id = ?";
 
 		try (PreparedStatement sentencia = conexion.prepareStatement(sql)) {
 			sentencia.setString(1, id.toString());
 			sentencia.executeUpdate();
+
+		} catch (SQLException excepcion) {
+			throw DatosUcoParkingException.crear(
+					"No fue posible eliminar el departamento.",
+					"Error técnico al ejecutar DELETE sobre la tabla Departamento.",
+					excepcion);
 		}
 	}
 
 	@Override
-	public DepartamentoEntidad consultarPorId(final UUID id) throws SQLException {
+	public DepartamentoEntidad consultarPorId(final UUID id) throws DatosUcoParkingException {
 		final String sql = """
 				SELECT 
 					d.id AS departamento_id,
@@ -75,13 +94,19 @@ public class DepartamentoSQLServerDAO implements DepartamentoDAO {
 					return ensamblarDepartamento(resultado);
 				}
 			}
+
+		} catch (SQLException excepcion) {
+			throw DatosUcoParkingException.crear(
+					"No fue posible consultar el departamento por identificador.",
+					"Error técnico al ejecutar SELECT por id sobre la tabla Departamento con INNER JOIN a Pais.",
+					excepcion);
 		}
 
 		return new DepartamentoEntidad.Builder().build();
 	}
 
 	@Override
-	public List<DepartamentoEntidad> consultar(final DepartamentoEntidad filtro) throws SQLException {
+	public List<DepartamentoEntidad> consultar(final DepartamentoEntidad filtro) throws DatosUcoParkingException {
 		final String sql = """
 				SELECT 
 					d.id AS departamento_id,
@@ -101,6 +126,12 @@ public class DepartamentoSQLServerDAO implements DepartamentoDAO {
 			while (resultado.next()) {
 				departamentos.add(ensamblarDepartamento(resultado));
 			}
+
+		} catch (SQLException excepcion) {
+			throw DatosUcoParkingException.crear(
+					"No fue posible consultar los departamentos.",
+					"Error técnico al ejecutar SELECT sobre la tabla Departamento con INNER JOIN a Pais.",
+					excepcion);
 		}
 
 		return departamentos;

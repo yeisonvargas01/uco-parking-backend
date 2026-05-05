@@ -12,6 +12,7 @@ import co.edu.uco.ucoparking.datos.dao.CiudadDAO;
 import co.edu.uco.ucoparking.entidad.CiudadEntidad;
 import co.edu.uco.ucoparking.entidad.DepartamentoEntidad;
 import co.edu.uco.ucoparking.entidad.PaisEntidad;
+import co.edu.uco.ucoparking.transversal.excepcion.DatosUcoParkingException;
 
 public class CiudadSQLServerDAO implements CiudadDAO {
 
@@ -22,7 +23,7 @@ public class CiudadSQLServerDAO implements CiudadDAO {
 	}
 
 	@Override
-	public void crear(final CiudadEntidad ciudad) throws SQLException {
+	public void crear(final CiudadEntidad ciudad) throws DatosUcoParkingException {
 		final String sql = "INSERT INTO Ciudad (id, nombre, departamento_id) VALUES (?, ?, ?)";
 
 		try (PreparedStatement sentencia = conexion.prepareStatement(sql)) {
@@ -30,11 +31,17 @@ public class CiudadSQLServerDAO implements CiudadDAO {
 			sentencia.setString(2, ciudad.getNombre());
 			sentencia.setString(3, ciudad.getDepartamento().getId().toString());
 			sentencia.executeUpdate();
+
+		} catch (SQLException excepcion) {
+			throw DatosUcoParkingException.crear(
+					"No fue posible registrar la ciudad.",
+					"Error técnico al ejecutar INSERT sobre la tabla Ciudad.",
+					excepcion);
 		}
 	}
 
 	@Override
-	public void modificar(final CiudadEntidad ciudad) throws SQLException {
+	public void modificar(final CiudadEntidad ciudad) throws DatosUcoParkingException {
 		final String sql = "UPDATE Ciudad SET nombre = ?, departamento_id = ? WHERE id = ?";
 
 		try (PreparedStatement sentencia = conexion.prepareStatement(sql)) {
@@ -42,21 +49,33 @@ public class CiudadSQLServerDAO implements CiudadDAO {
 			sentencia.setString(2, ciudad.getDepartamento().getId().toString());
 			sentencia.setString(3, ciudad.getId().toString());
 			sentencia.executeUpdate();
+
+		} catch (SQLException excepcion) {
+			throw DatosUcoParkingException.crear(
+					"No fue posible modificar la ciudad.",
+					"Error técnico al ejecutar UPDATE sobre la tabla Ciudad.",
+					excepcion);
 		}
 	}
 
 	@Override
-	public void eliminar(final UUID id) throws SQLException {
+	public void eliminar(final UUID id) throws DatosUcoParkingException {
 		final String sql = "DELETE FROM Ciudad WHERE id = ?";
 
 		try (PreparedStatement sentencia = conexion.prepareStatement(sql)) {
 			sentencia.setString(1, id.toString());
 			sentencia.executeUpdate();
+
+		} catch (SQLException excepcion) {
+			throw DatosUcoParkingException.crear(
+					"No fue posible eliminar la ciudad.",
+					"Error técnico al ejecutar DELETE sobre la tabla Ciudad.",
+					excepcion);
 		}
 	}
 
 	@Override
-	public CiudadEntidad consultarPorId(final UUID id) throws SQLException {
+	public CiudadEntidad consultarPorId(final UUID id) throws DatosUcoParkingException {
 		final String sql = """
 				SELECT 
 					c.id AS ciudad_id,
@@ -79,13 +98,19 @@ public class CiudadSQLServerDAO implements CiudadDAO {
 					return ensamblarCiudad(resultado);
 				}
 			}
+
+		} catch (SQLException excepcion) {
+			throw DatosUcoParkingException.crear(
+					"No fue posible consultar la ciudad por identificador.",
+					"Error técnico al ejecutar SELECT por id sobre la tabla Ciudad con INNER JOIN a Departamento y Pais.",
+					excepcion);
 		}
 
 		return new CiudadEntidad.Builder().build();
 	}
 
 	@Override
-	public List<CiudadEntidad> consultar(final CiudadEntidad filtro) throws SQLException {
+	public List<CiudadEntidad> consultar(final CiudadEntidad filtro) throws DatosUcoParkingException {
 		final String sql = """
 				SELECT 
 					c.id AS ciudad_id,
@@ -108,6 +133,12 @@ public class CiudadSQLServerDAO implements CiudadDAO {
 			while (resultado.next()) {
 				ciudades.add(ensamblarCiudad(resultado));
 			}
+
+		} catch (SQLException excepcion) {
+			throw DatosUcoParkingException.crear(
+					"No fue posible consultar las ciudades.",
+					"Error técnico al ejecutar SELECT sobre la tabla Ciudad con INNER JOIN a Departamento y Pais.",
+					excepcion);
 		}
 
 		return ciudades;
