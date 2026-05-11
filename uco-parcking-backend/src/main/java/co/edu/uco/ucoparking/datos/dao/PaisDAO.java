@@ -1,20 +1,18 @@
 package co.edu.uco.ucoparking.datos.dao;
 
-import java.util.List;
 import java.util.UUID;
 
+import co.edu.uco.ucoparking.datos.ActualizarDAO;
+import co.edu.uco.ucoparking.datos.ConsultarPorFiltroDAO;
+import co.edu.uco.ucoparking.datos.ConsultarPorIdDAO;
+import co.edu.uco.ucoparking.datos.ConsultarTodosDAO;
+import co.edu.uco.ucoparking.datos.CrearDAO;
+import co.edu.uco.ucoparking.datos.EliminarDAO;
 import co.edu.uco.ucoparking.entidad.PaisEntidad;
-import co.edu.uco.ucoparking.transversal.excepcion.DatosUcoParkingException;
 
-public interface PaisDAO {
+public interface PaisDAO extends CrearDAO<PaisEntidad>, ConsultarTodosDAO<PaisEntidad>,
+		ConsultarPorIdDAO<PaisEntidad, UUID>, ConsultarPorFiltroDAO<PaisEntidad>,
+		ActualizarDAO<PaisEntidad>, EliminarDAO<UUID> {
 
-	void crear(PaisEntidad pais) throws DatosUcoParkingException;
-
-	void modificar(PaisEntidad pais) throws DatosUcoParkingException;
-
-	void eliminar(UUID id) throws DatosUcoParkingException;
-
-	PaisEntidad consultarPorId(UUID id) throws DatosUcoParkingException;
-
-	List<PaisEntidad> consultar(PaisEntidad filtro) throws DatosUcoParkingException;
 }
+
