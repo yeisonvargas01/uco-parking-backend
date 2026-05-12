@@ -36,7 +36,7 @@ public class RegistrarNuevoPaisCasoUsoImpl implements RegistrarNuevoPaisCasoUso 
 		if(UtilObjeto.esNulo(resultados) && !resultados.isEmpty()) {
 			// Existe otro pais con el mismo nombre
 			// Lanzar una excepción customizada
-			// ExistePaisConMismoNombvreExcepcion
+			// ExistePaisConMismoNombreExcepcion
 		}
 		
 	}
@@ -52,10 +52,6 @@ public class RegistrarNuevoPaisCasoUsoImpl implements RegistrarNuevoPaisCasoUso 
 		// Lógica para guardar el nuevo pais
 	}
 	
-	
-	
-	
-	
-	
+
 	
 }
