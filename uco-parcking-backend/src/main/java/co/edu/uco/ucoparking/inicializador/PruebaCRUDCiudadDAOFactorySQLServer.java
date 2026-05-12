@@ -7,7 +7,7 @@ import co.edu.uco.ucoparking.datos.dao.factory.SQLServerDAOFactory;
 import co.edu.uco.ucoparking.entidad.CiudadEntidad;
 import co.edu.uco.ucoparking.entidad.DepartamentoEntidad;
 import co.edu.uco.ucoparking.entidad.PaisEntidad;
-import co.edu.uco.ucoparking.transversal.excepcion.DatosUcoParkingException;
+import co.edu.uco.ucoparking.transversal.utilitario.excepcion.DatosUcoParkingException;
 
 public class PruebaCRUDCiudadDAOFactorySQLServer {
 

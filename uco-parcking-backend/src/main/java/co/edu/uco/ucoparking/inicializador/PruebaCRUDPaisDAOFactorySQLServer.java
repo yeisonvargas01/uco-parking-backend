@@ -5,7 +5,7 @@ import java.util.UUID;
 import co.edu.uco.ucoparking.datos.dao.factory.DAOFactory;
 import co.edu.uco.ucoparking.datos.dao.factory.SQLServerDAOFactory;
 import co.edu.uco.ucoparking.entidad.PaisEntidad;
-import co.edu.uco.ucoparking.transversal.excepcion.DatosUcoParkingException;
+import co.edu.uco.ucoparking.transversal.utilitario.excepcion.DatosUcoParkingException;
 
 public class PruebaCRUDPaisDAOFactorySQLServer {
 

@@ -2,9 +2,9 @@ package co.edu.uco.ucoparking.entidad;
 
 import java.util.UUID;
 
-import co.edu.uco.ucoparking.transversal.UtilObjeto;
-import co.edu.uco.ucoparking.transversal.UtilTexto;
-import co.edu.uco.ucoparking.transversal.UtilUUID;
+import co.edu.uco.ucoparking.transversal.utilitario.UtilObjeto;
+import co.edu.uco.ucoparking.transversal.utilitario.UtilTexto;
+import co.edu.uco.ucoparking.transversal.utilitario.UtilUUID;
 
 public class CiudadEntidad {
 

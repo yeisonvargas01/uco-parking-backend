@@ -1,5 +1,5 @@
 package co.edu.uco.ucoparking.negocio.fachada;
 
-public class FachadaCasodeUsoConRetorno {
+public class FachadaConRetorno {
 
 }
