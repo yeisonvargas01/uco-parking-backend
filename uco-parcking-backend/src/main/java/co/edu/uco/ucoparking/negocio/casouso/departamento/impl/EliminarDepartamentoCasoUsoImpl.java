@@ -26,8 +26,6 @@ public final class EliminarDepartamentoCasoUsoImpl implements EliminarDepartamen
 	}
 
 	// 1. El identificador del departamento es obligatorio.
-	// Para eliminar un departamento, el sistema debe saber exactamente
-	// qué registro se desea retirar de forma definitiva.
 	private void validarIdDepartamento(final UUID id) {
 		if (Objects.isNull(id)) {
 			throw NegocioUcoParkingExcepcion.crear("El identificador del departamento es obligatorio.");
