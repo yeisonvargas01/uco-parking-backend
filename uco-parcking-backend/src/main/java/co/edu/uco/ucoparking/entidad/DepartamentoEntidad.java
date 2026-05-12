@@ -18,6 +18,10 @@ public class DepartamentoEntidad {
 		setPais(builder.pais);
 	}
 
+	public static Builder builder() {
+		return new Builder();
+	}
+
 	public UUID getId() {
 		return id;
 	}
@@ -39,7 +43,7 @@ public class DepartamentoEntidad {
 	}
 
 	private void setPais(final PaisEntidad pais) {
-		this.pais = UtilObjeto.obtenerValorDefecto(pais, new PaisEntidad.Builder().build());
+		this.pais = UtilObjeto.obtenerValorDefecto(pais, PaisEntidad.builder().build());
 	}
 
 	public static class Builder {
@@ -47,6 +51,10 @@ public class DepartamentoEntidad {
 		private UUID id;
 		private String nombre;
 		private PaisEntidad pais;
+
+		private Builder() {
+			super();
+		}
 
 		public Builder id(final UUID id) {
 			this.id = id;
@@ -59,7 +67,7 @@ public class DepartamentoEntidad {
 		}
 
 		public Builder pais(final PaisEntidad pais) {
-			this.pais = UtilObjeto.obtenerValorDefecto(pais, new PaisEntidad.Builder().build());
+			this.pais = UtilObjeto.obtenerValorDefecto(pais, PaisEntidad.builder().build());
 			return this;
 		}
 

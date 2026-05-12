@@ -15,6 +15,10 @@ public class PaisEntidad {
 		setNombre(builder.nombre);
 	}
 	
+	public static Builder builder() {
+		return new Builder();
+	}
+	
 	public UUID getId() {
 		return id;
 	}
@@ -35,6 +39,10 @@ public class PaisEntidad {
 		
 		private UUID id;
 		private String nombre;
+		
+		private Builder() {
+			super();
+		}
 		
 		public Builder id(final UUID id) {
 			this.id = id;
