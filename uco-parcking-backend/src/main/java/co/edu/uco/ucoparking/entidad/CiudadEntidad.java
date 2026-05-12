@@ -18,6 +18,10 @@ public class CiudadEntidad {
 		setDepartamento(builder.departamento);
 	}
 
+	public static Builder builder() {
+		return new Builder();
+	}
+
 	public UUID getId() {
 		return id;
 	}
@@ -39,7 +43,7 @@ public class CiudadEntidad {
 	}
 
 	private void setDepartamento(final DepartamentoEntidad departamento) {
-		this.departamento = UtilObjeto.obtenerValorDefecto(departamento, new DepartamentoEntidad.Builder().build());
+		this.departamento = UtilObjeto.obtenerValorDefecto(departamento, DepartamentoEntidad.builder().build());
 	}
 
 	public static class Builder {
@@ -47,6 +51,10 @@ public class CiudadEntidad {
 		private UUID id;
 		private String nombre;
 		private DepartamentoEntidad departamento;
+
+		private Builder() {
+			super();
+		}
 
 		public Builder id(final UUID id) {
 			this.id = id;
@@ -59,7 +67,7 @@ public class CiudadEntidad {
 		}
 
 		public Builder departamento(final DepartamentoEntidad departamento) {
-			this.departamento = UtilObjeto.obtenerValorDefecto(departamento, new DepartamentoEntidad.Builder().build());
+			this.departamento = UtilObjeto.obtenerValorDefecto(departamento, DepartamentoEntidad.builder().build());
 			return this;
 		}
 

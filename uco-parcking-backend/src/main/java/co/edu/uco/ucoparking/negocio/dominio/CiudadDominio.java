@@ -2,9 +2,8 @@ package co.edu.uco.ucoparking.negocio.dominio;
 
 import java.util.UUID;
 
-
-import co.edu.uco.ucoparking.transversal.UtilObjeto;
-import co.edu.uco.ucoparking.transversal.UtilTexto;
+import co.edu.uco.ucoparking.transversal.utilitario.UtilObjeto;
+import co.edu.uco.ucoparking.transversal.utilitario.UtilTexto;
 import co.edu.uco.ucoparking.transversal.utilitario.UtilUUID;
 
 public class CiudadDominio {
@@ -17,6 +16,10 @@ public class CiudadDominio {
 		setId(builder.id);
 		setNombre(builder.nombre);
 		setDepartamento(builder.departamento);
+	}
+
+	public static Builder builder() {
+		return new Builder();
 	}
 
 	public UUID getId() {
@@ -40,7 +43,7 @@ public class CiudadDominio {
 	}
 
 	private void setDepartamento(final DepartamentoDominio departamento) {
-		this.departamento = UtilObjeto.obtenerValorDefecto(departamento, new DepartamentoDominio.Builder().build());
+		this.departamento = UtilObjeto.obtenerValorDefecto(departamento, DepartamentoDominio.builder().build());
 	}
 
 	public static class Builder {
@@ -48,6 +51,10 @@ public class CiudadDominio {
 		private UUID id;
 		private String nombre;
 		private DepartamentoDominio departamento;
+
+		private Builder() {
+			super();
+		}
 
 		public Builder id(final UUID id) {
 			this.id = id;
@@ -60,7 +67,7 @@ public class CiudadDominio {
 		}
 
 		public Builder departamento(final DepartamentoDominio departamento) {
-			this.departamento = UtilObjeto.obtenerValorDefecto(departamento, new DepartamentoDominio.Builder().build());
+			this.departamento = UtilObjeto.obtenerValorDefecto(departamento, DepartamentoDominio.builder().build());
 			return this;
 		}
 
