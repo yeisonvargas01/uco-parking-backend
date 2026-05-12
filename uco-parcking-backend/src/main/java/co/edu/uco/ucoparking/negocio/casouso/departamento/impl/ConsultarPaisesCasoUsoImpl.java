@@ -1,4 +1,4 @@
-package co.edu.uco.ucoparking.negocio.casouso.pais.impl;
+package co.edu.uco.ucoparking.negocio.casouso.departamento.impl;
 
 import java.util.Collections;
 import java.util.List;

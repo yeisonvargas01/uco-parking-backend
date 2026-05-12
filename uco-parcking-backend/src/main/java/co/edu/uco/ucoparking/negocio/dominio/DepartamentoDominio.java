@@ -2,9 +2,8 @@ package co.edu.uco.ucoparking.negocio.dominio;
 
 import java.util.UUID;
 
-
-import co.edu.uco.ucoparking.transversal.UtilObjeto;
-import co.edu.uco.ucoparking.transversal.UtilTexto;
+import co.edu.uco.ucoparking.transversal.utilitario.UtilObjeto;
+import co.edu.uco.ucoparking.transversal.utilitario.UtilTexto;
 import co.edu.uco.ucoparking.transversal.utilitario.UtilUUID;
 
 public class DepartamentoDominio {
@@ -17,6 +16,10 @@ public class DepartamentoDominio {
 		setId(builder.id);
 		setNombre(builder.nombre);
 		setPais(builder.pais);
+	}
+
+	public static Builder builder() {
+		return new Builder();
 	}
 
 	public UUID getId() {
@@ -40,7 +43,7 @@ public class DepartamentoDominio {
 	}
 
 	private void setPais(final PaisDominio pais) {
-		this.pais = UtilObjeto.obtenerValorDefecto(pais, new PaisDominio.Builder().build());
+		this.pais = UtilObjeto.obtenerValorDefecto(pais, PaisDominio.builder().build());
 	}
 
 	public static class Builder {
@@ -48,6 +51,10 @@ public class DepartamentoDominio {
 		private UUID id;
 		private String nombre;
 		private PaisDominio pais;
+
+		private Builder() {
+			super();
+		}
 
 		public Builder id(final UUID id) {
 			this.id = id;
@@ -60,7 +67,7 @@ public class DepartamentoDominio {
 		}
 
 		public Builder pais(final PaisDominio pais) {
-			this.pais = UtilObjeto.obtenerValorDefecto(pais, new PaisDominio.Builder().build());
+			this.pais = UtilObjeto.obtenerValorDefecto(pais, PaisDominio.builder().build());
 			return this;
 		}
 
