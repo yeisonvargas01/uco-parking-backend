@@ -3,7 +3,7 @@ package co.edu.uco.ucoparking.negocio.assembler.dto.impl;
 import co.edu.uco.ucoparking.dto.CiudadDTO;
 import co.edu.uco.ucoparking.negocio.assembler.dto.DTOAssembler;
 import co.edu.uco.ucoparking.negocio.dominio.CiudadDominio;
-import co.edu.uco.ucoparking.transversal.UtilObjeto;
+import co.edu.uco.ucoparking.transversal.utilitario.UtilObjeto;
 
 public final class CiudadDTOAssembler implements DTOAssembler<CiudadDominio, CiudadDTO> {
 
@@ -13,7 +13,7 @@ public final class CiudadDTOAssembler implements DTOAssembler<CiudadDominio, Ciu
 		super();
 	}
 
-	public synchronized static final CiudadDTOAssembler getInstance() {
+	public static synchronized CiudadDTOAssembler getInstance() {
 		if (UtilObjeto.esNula(INSTANCE)) {
 			INSTANCE = new CiudadDTOAssembler();
 		}
@@ -22,10 +22,11 @@ public final class CiudadDTOAssembler implements DTOAssembler<CiudadDominio, Ciu
 	}
 
 	@Override
-	public CiudadDominio ensamblarDTO(final CiudadDTO dto) {
-		var ciudadEnsamblar = UtilObjeto.obtenerValorDefecto(dto, new CiudadDTO.Builder().build());
+	public CiudadDTO ensamblarDTO(final CiudadDominio dominio) {
+		var ciudadEnsamblar = UtilObjeto.obtenerValorDefecto(
+				dominio, CiudadDominio.builder().build());
 
-		return new CiudadDominio.Builder()
+		return CiudadDTO.builder()
 				.id(ciudadEnsamblar.getId())
 				.nombre(ciudadEnsamblar.getNombre())
 				.departamento(DepartamentoDTOAssembler.getInstance().ensamblarDTO(ciudadEnsamblar.getDepartamento()))
@@ -33,17 +34,14 @@ public final class CiudadDTOAssembler implements DTOAssembler<CiudadDominio, Ciu
 	}
 
 	@Override
-	public CiudadDTO ensamblarDominio(final CiudadDominio dominio) {
-		var ciudadEnsamblar = UtilObjeto.obtenerValorDefecto(dominio, new CiudadDominio.Builder().build());
+	public CiudadDominio ensamblarDominio(final CiudadDTO dto) {
+		var ciudadEnsamblar = UtilObjeto.obtenerValorDefecto(
+				dto, CiudadDTO.builder().build());
 
-		return new CiudadDTO.Builder()
+		return CiudadDominio.builder()
 				.id(ciudadEnsamblar.getId())
 				.nombre(ciudadEnsamblar.getNombre())
 				.departamento(DepartamentoDTOAssembler.getInstance().ensamblarDominio(ciudadEnsamblar.getDepartamento()))
 				.build();
-	}
-
-	public CiudadDominio ensamblarDominio(final CiudadDTO dto) {
-		return ensamblarDTO(dto);
 	}
 }

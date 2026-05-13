@@ -18,12 +18,16 @@ public class CiudadDTO {
 		setDepartamento(builder.departamento);
 	}
 
+	public static Builder builder() {
+		return new Builder();
+	}
+
 	public UUID getId() {
 		return id;
 	}
 
 	private void setId(final UUID id) {
-	    this.id = UtilUUID.obtenerValorDefecto(id);
+		this.id = UtilUUID.obtenerValorDefecto(id);
 	}
 	
 	public String getNombre() {
@@ -39,7 +43,7 @@ public class CiudadDTO {
 	}
 
 	private void setDepartamento(final DepartamentoDTO departamento) {
-		this.departamento = UtilObjeto.obtenerValorDefecto(departamento, new DepartamentoDTO.Builder().build());
+		this.departamento = UtilObjeto.obtenerValorDefecto(departamento, DepartamentoDTO.builder().build());
 	}
 
 	public static class Builder {
@@ -47,6 +51,10 @@ public class CiudadDTO {
 		private UUID id;
 		private String nombre;
 		private DepartamentoDTO departamento;
+
+		private Builder() {
+			super();
+		}
 
 		public Builder id(final UUID id) {
 			this.id = id;
@@ -59,7 +67,7 @@ public class CiudadDTO {
 		}
 
 		public Builder departamento(final DepartamentoDTO departamento) {
-			this.departamento = UtilObjeto.obtenerValorDefecto(departamento, new DepartamentoDTO.Builder().build());
+			this.departamento = UtilObjeto.obtenerValorDefecto(departamento, DepartamentoDTO.builder().build());
 			return this;
 		}
 
