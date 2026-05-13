@@ -15,6 +15,10 @@ public class PaisDTO {
 		setNombre(builder.nombre);
 	}
 	
+	public static Builder builder() {
+		return new Builder();
+	}
+	
 	public UUID getId() {
 		return id;
 	}
@@ -36,6 +40,10 @@ public class PaisDTO {
 		private UUID id;
 		private String nombre;
 		
+		private Builder() {
+			super();
+		}
+		
 		public Builder id(final UUID id) {
 			this.id = id;
 			return this;
@@ -50,7 +58,6 @@ public class PaisDTO {
 			return new PaisDTO(this);
 		}	
 	}
-}	
-
+}
 
 	

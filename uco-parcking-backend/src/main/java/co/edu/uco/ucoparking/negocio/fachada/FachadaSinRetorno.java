@@ -1,5 +1,6 @@
 package co.edu.uco.ucoparking.negocio.fachada;
 
-public class FachadaSinRetorno {
+public interface FachadaSinRetorno<E> {
 
+	void ejecutar(E datos);
 }
