@@ -3,7 +3,7 @@ package co.edu.uco.ucoparking.negocio.assembler.entidad.impl;
 import co.edu.uco.ucoparking.entidad.DepartamentoEntidad;
 import co.edu.uco.ucoparking.negocio.assembler.entidad.EntidadAssembler;
 import co.edu.uco.ucoparking.negocio.dominio.DepartamentoDominio;
-import co.edu.uco.ucoparking.transversal.UtilObjeto;
+import co.edu.uco.ucoparking.transversal.utilitario.UtilObjeto;
 
 public final class DepartamentoEntidadAssembler implements EntidadAssembler<DepartamentoDominio, DepartamentoEntidad> {
 
@@ -13,7 +13,7 @@ public final class DepartamentoEntidadAssembler implements EntidadAssembler<Depa
 		super();
 	}
 
-	public synchronized static final DepartamentoEntidadAssembler getInstance() {
+	public static synchronized DepartamentoEntidadAssembler getInstance() {
 		if (UtilObjeto.esNula(INSTANCE)) {
 			INSTANCE = new DepartamentoEntidadAssembler();
 		}
@@ -23,9 +23,10 @@ public final class DepartamentoEntidadAssembler implements EntidadAssembler<Depa
 
 	@Override
 	public DepartamentoDominio ensamblarDominio(final DepartamentoEntidad entidad) {
-		var departamentoEnsamblar = UtilObjeto.obtenerValorDefecto(entidad, new DepartamentoEntidad.Builder().build());
+		var departamentoEnsamblar = UtilObjeto.obtenerValorDefecto(
+				entidad, DepartamentoEntidad.builder().build());
 
-		return new DepartamentoDominio.Builder()
+		return DepartamentoDominio.builder()
 				.id(departamentoEnsamblar.getId())
 				.nombre(departamentoEnsamblar.getNombre())
 				.pais(PaisEntidadAssembler.getInstance().ensamblarDominio(departamentoEnsamblar.getPais()))
@@ -34,12 +35,14 @@ public final class DepartamentoEntidadAssembler implements EntidadAssembler<Depa
 
 	@Override
 	public DepartamentoEntidad ensamblarEntidad(final DepartamentoDominio dominio) {
-		var departamentoEnsamblar = UtilObjeto.obtenerValorDefecto(dominio, new DepartamentoDominio.Builder().build());
+		var departamentoEnsamblar = UtilObjeto.obtenerValorDefecto(
+				dominio, DepartamentoDominio.builder().build());
 
-		return new DepartamentoEntidad.Builder()
+		return DepartamentoEntidad.builder()
 				.id(departamentoEnsamblar.getId())
 				.nombre(departamentoEnsamblar.getNombre())
 				.pais(PaisEntidadAssembler.getInstance().ensamblarEntidad(departamentoEnsamblar.getPais()))
 				.build();
 	}
 }
+

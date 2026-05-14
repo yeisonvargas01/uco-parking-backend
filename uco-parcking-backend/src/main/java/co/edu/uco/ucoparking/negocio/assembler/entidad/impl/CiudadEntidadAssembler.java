@@ -3,7 +3,7 @@ package co.edu.uco.ucoparking.negocio.assembler.entidad.impl;
 import co.edu.uco.ucoparking.entidad.CiudadEntidad;
 import co.edu.uco.ucoparking.negocio.assembler.entidad.EntidadAssembler;
 import co.edu.uco.ucoparking.negocio.dominio.CiudadDominio;
-import co.edu.uco.ucoparking.transversal.UtilObjeto;
+import co.edu.uco.ucoparking.transversal.utilitario.UtilObjeto;
 
 public final class CiudadEntidadAssembler implements EntidadAssembler<CiudadDominio, CiudadEntidad> {
 
@@ -13,7 +13,7 @@ public final class CiudadEntidadAssembler implements EntidadAssembler<CiudadDomi
 		super();
 	}
 
-	public synchronized static final CiudadEntidadAssembler getInstance() {
+	public static synchronized CiudadEntidadAssembler getInstance() {
 		if (UtilObjeto.esNula(INSTANCE)) {
 			INSTANCE = new CiudadEntidadAssembler();
 		}
@@ -23,23 +23,27 @@ public final class CiudadEntidadAssembler implements EntidadAssembler<CiudadDomi
 
 	@Override
 	public CiudadDominio ensamblarDominio(final CiudadEntidad entidad) {
-		var ciudadEnsamblar = UtilObjeto.obtenerValorDefecto(entidad, new CiudadEntidad.Builder().build());
+		var ciudadEnsamblar = UtilObjeto.obtenerValorDefecto(
+				entidad, CiudadEntidad.builder().build());
 
-		return new CiudadDominio.Builder()
+		return CiudadDominio.builder()
 				.id(ciudadEnsamblar.getId())
 				.nombre(ciudadEnsamblar.getNombre())
-				.departamento(DepartamentoEntidadAssembler.getInstance().ensamblarDominio(ciudadEnsamblar.getDepartamento()))
+				.departamento(DepartamentoEntidadAssembler.getInstance()
+						.ensamblarDominio(ciudadEnsamblar.getDepartamento()))
 				.build();
 	}
 
 	@Override
 	public CiudadEntidad ensamblarEntidad(final CiudadDominio dominio) {
-		var ciudadEnsamblar = UtilObjeto.obtenerValorDefecto(dominio, new CiudadDominio.Builder().build());
+		var ciudadEnsamblar = UtilObjeto.obtenerValorDefecto(
+				dominio, CiudadDominio.builder().build());
 
-		return new CiudadEntidad.Builder()
+		return CiudadEntidad.builder()
 				.id(ciudadEnsamblar.getId())
 				.nombre(ciudadEnsamblar.getNombre())
-				.departamento(DepartamentoEntidadAssembler.getInstance().ensamblarEntidad(ciudadEnsamblar.getDepartamento()))
+				.departamento(DepartamentoEntidadAssembler.getInstance()
+						.ensamblarEntidad(ciudadEnsamblar.getDepartamento()))
 				.build();
 	}
 }

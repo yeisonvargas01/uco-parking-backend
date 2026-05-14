@@ -3,20 +3,20 @@ package co.edu.uco.ucoparking.negocio.fachada.pais.impl;
 import co.edu.uco.ucoparking.datos.dao.sql.factoria.DAOFactory;
 import co.edu.uco.ucoparking.dto.PaisDTO;
 import co.edu.uco.ucoparking.negocio.assembler.dto.impl.PaisDTOAssembler;
-import co.edu.uco.ucoparking.negocio.casouso.pais.RegistrarNuevoPaisCasoUso;
-import co.edu.uco.ucoparking.negocio.casouso.pais.impl.RegistrarNuevoPaisCasoUsoImpl;
-import co.edu.uco.ucoparking.negocio.fachada.pais.RegistrarNuevoPaisFachada;
+import co.edu.uco.ucoparking.negocio.casouso.pais.ModificarPaisCasoUso;
+import co.edu.uco.ucoparking.negocio.casouso.pais.impl.ModificarPaisCasoUsoImpl;
+import co.edu.uco.ucoparking.negocio.fachada.pais.ModificarPaisFachada;
 import co.edu.uco.ucoparking.transversal.utilitario.excepcion.NegocioUcoParkingExcepcion;
 import co.edu.uco.ucoparking.transversal.utilitario.excepcion.UcoParkingExcepcion;
 
-public final class RegistrarNuevoPaisFachadaImpl implements RegistrarNuevoPaisFachada {
+public final class ModificarPaisFachadaImpl implements ModificarPaisFachada {
 
 	private final DAOFactory daoFactory;
-	private final RegistrarNuevoPaisCasoUso casoUso;
+	private final ModificarPaisCasoUso casoUso;
 
-	public RegistrarNuevoPaisFachadaImpl() {
+	public ModificarPaisFachadaImpl() {
 		daoFactory = DAOFactory.getFactory();
-		casoUso = new RegistrarNuevoPaisCasoUsoImpl(daoFactory);
+		casoUso = new ModificarPaisCasoUsoImpl(daoFactory);
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public final class RegistrarNuevoPaisFachadaImpl implements RegistrarNuevoPaisFa
 		} catch (Exception excepcion) {
 			daoFactory.cancelarTransaccion();
 			throw NegocioUcoParkingExcepcion.crear(
-					"Ocurrió un error inesperado al registrar el nuevo país.",
+					"Ocurrió un error inesperado al modificar la información del país.",
 					excepcion);
 
 		} finally {
