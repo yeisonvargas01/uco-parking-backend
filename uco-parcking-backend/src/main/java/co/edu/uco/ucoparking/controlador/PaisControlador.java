@@ -15,7 +15,7 @@ import co.edu.uco.ucoparking.negocio.fachada.pais.impl.RegistrarNuevoPaisFachada
 
 @RestController
 @RequestMapping("/api/v1/paises")
-public class PaisController {
+public class PaisControlador {
 
 	@PostMapping
 	public ResponseEntity<String> registrar(@RequestBody PaisRequest request) {
