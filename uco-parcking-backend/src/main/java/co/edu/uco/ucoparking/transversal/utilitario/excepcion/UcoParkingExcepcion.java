@@ -4,11 +4,27 @@ public abstract class UcoParkingExcepcion extends RuntimeException {
 
 	private static final long serialVersionUID = -127481128908084318L;
 
-	public UcoParkingExcepcion(String mensaje) {
-		super(mensaje);
+	private final String mensajeUsuario;
+	private final String mensajeTecnico;
+	private final Throwable excepcionRaiz;
+
+	protected UcoParkingExcepcion(final String mensajeUsuario, final String mensajeTecnico,
+			final Throwable excepcionRaiz) {
+		super(mensajeUsuario, excepcionRaiz);
+		this.mensajeUsuario = mensajeUsuario;
+		this.mensajeTecnico = mensajeTecnico;
+		this.excepcionRaiz = excepcionRaiz;
 	}
 
-	public UcoParkingExcepcion(String mensaje, Throwable excepcionRaiz) {
-		super(mensaje, excepcionRaiz);
+	public String getMensajeUsuario() {
+		return mensajeUsuario;
+	}
+
+	public String getMensajeTecnico() {
+		return mensajeTecnico;
+	}
+
+	public Throwable getExcepcionRaiz() {
+		return excepcionRaiz;
 	}
 }
